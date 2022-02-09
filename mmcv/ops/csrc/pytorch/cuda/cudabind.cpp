@@ -789,6 +789,18 @@ Tensor nms_cuda(Tensor boxes, Tensor scores, float iou_threshold, int offset) {
 Tensor nms_impl(Tensor boxes, Tensor scores, float iou_threshold, int offset);
 REGISTER_DEVICE_IMPL(nms_impl, CUDA, nms_cuda);
 
+Tensor NMSDistCUDAKernelLauncher(Tensor boxes, Tensor scores, float dist_threshold,
+                             int offset);
+
+Tensor nms_dist_cuda(Tensor boxes, Tensor scores, float dist_threshold, int offset) {
+  return NMSDistCUDAKernelLauncher(boxes, scores, dist_threshold, offset);
+}
+
+Tensor nms_dist_impl(Tensor boxes, Tensor scores, float dist_threshold, int offset);
+REGISTER_DEVICE_IMPL(nms_dist_impl, CUDA, nms_dist_cuda);
+
+
+
 void PointsInBoxesPartForwardCUDAKernelLauncher(int batch_size, int boxes_num,
                                                 int pts_num, const Tensor boxes,
                                                 const Tensor pts,
